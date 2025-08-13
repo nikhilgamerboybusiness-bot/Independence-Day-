@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy 79th Independence Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at center, orange 0%, white 50%, green 100%);
+    background-size: 200% 200%;
+    animation: glowbg 8s ease infinite;
+  }
+  @keyframes glowbg {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .container {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px auto;
+    max-width: 500px;
+    position: relative;
+    z-index: 10;
+    border: 5px solid transparent;
+    border-image: linear-gradient(45deg, orange, white, green);
+    border-image-slice: 1;
+    animation: glowborder 4s linear infinite;
+  }
+  @keyframes glowborder {
+    0% { border-image: linear-gradient(45deg, orange, white, green); border-image-slice: 1; }
+    25% { border-image: linear-gradient(90deg, orange, white, green); border-image-slice: 1; }
+    50% { border-image: linear-gradient(135deg, orange, white, green); border-image-slice: 1; }
+    75% { border-image: linear-gradient(180deg, orange, white, green); border-image-slice: 1; }
+    100% { border-image: linear-gradient(225deg, orange, white, green); border-image-slice: 1; }
+  }
+  img {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  h1 {
+    font-size: 2.5em;
+    animation: text-glow 2s ease-in-out infinite alternate;
+  }
+  @keyframes text-glow {
+    0% {
+      text-shadow: 0 0 5px orange, 0 0 10px white, 0 0 15px green;
+    }
+    100% {
+      text-shadow: 0 0 10px white, 0 0 20px orange, 0 0 30px green;
+    }
+  }
+  input, select {
+    padding: 12px;
+    width: 80%;
+    margin: 10px 0;
+    border-radius: 5px;
+    /* Naya border code yahan shuru hota hai */
+    border: 2px solid transparent;
+    border-image: linear-gradient(45deg, orange, white, green);
+    border-image-slice: 1;
+    background: #ffffff1a;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  input:focus, select:focus {
+    border-image: linear-gradient(45deg, orange, white, green) 1;
+    box-shadow: 0 0 10px rgba(255,165,0,0.5); /* Focus hone par halki glow */
+  }
+  button {
+    padding: 10px 20px;
+    border: none;
+    background: orange;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  }
+  button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #ff9900, #ffc107);
+  }
+  #shareBtnContainer {
+    display: none;
+    margin-top: 10px;
+  }
+  #shareBtnContainer button {
+    padding: 15px 30px;
+    font-size: 1.1em;
+  }
+  #whatsappShareBtn {
+    background: #25D366;
+  }
+  #whatsappShareBtn:hover {
+    background: #128C7E;
+  }
+  #genericShareBtn {
+    background: #007bff;
+  }
+  #genericShareBtn:hover {
+    background: #0056b3;
+  }
+  #output h2 {
+    color: yellow;
+    text-shadow: 2px 2px 5px black;
+    animation: glow 1s infinite alternate;
+  }
+  #output p {
+    color: white;
+    font-size: 14px;
+    text-shadow: 1px 1px 3px black;
+  }
+  @keyframes glow {
+    from { text-shadow: 0 0 10px orange, 0 0 20px green; }
+    to { text-shadow: 0 0 20px white, 0 0 30px orange; }
+  }
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+  #musicToggleBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #ffc107, #ff9800);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4),
+                -5px -5px 15px rgba(255, 255, 255, 0.2);
+    font-size: 24px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    z-index: 1000;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  #musicToggleBtn:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: 0 0 20px #ffc107, 0 0 30px #ff9800;
+  }
+  .audio-controls {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+    border-radius: 20px;
+  }
+  #volumeSlider {
+    -webkit-appearance: none;
+    width: 100px;
+    height: 8px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
+    border-radius: 4px;
+  }
+  #volumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: orange;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div class="container">
+  <img src="giphy.gif" alt="Independence Day GIF">
+  <h1>🇮🇳 Happy 79th Independence Day 🇮🇳</h1>
+  
+  <div id="input-area">
+    <input type="text" id="nameInput" placeholder="Apna naam likhiye">
+    <select id="messageSelect">
+      <option value="1">जय हिन्द! 🇮🇳</option>
+      <option value="2">हमारे वीर शहीदों को नमन।</option>
+      <option value="3">वंदे मातरम!</option>
+      <option value="4">आजादी का यह दिन हमारे गौरवशाली इतिहास की याद दिलाता है।</option>
+      <option value="5">हम सभी भारतीय एक हैं, और यही हमारी ताकत है।</option>
+      <option value="6">आओ, मिलकर एक नए और प्रगतिशील भारत का निर्माण करें।</option>
+      <option value="7">हमारा तिरंगा सदा ऊँचा रहे! जय भारत।</option>
+      <option value="8">स्वतंत्रता दिवस की हार्दिक शुभकामनाएँ।</option>
+      <option value="9">जय भारत, जय हिन्द! 🇮🇳</option>
+      <option value="10">भारत माता की जय! 🙏</option>
+      <option value="11">देशभक्ति का यह पर्व, हम सबके लिए गर्व।</option>
+      <option value="12">तिरंगा हमारा स्वाभिमान है।</option>
+      <option value="13">स्वतंत्रता दिवस हमें अपने वीर शहीदों के बलिदान की याद दिलाता है। यह दिन हमें एकता और अखंडता के महत्व को समझाता है। आओ, हम सब मिलकर एक मजबूत, समृद्ध और विकसित भारत का निर्माण करने का संकल्प लें। 🇮🇳</option>
+      <option value="14">79वें स्वतंत्रता दिवस की शुभकामनाएँ! यह दिन हमें हमारे महान स्वतंत्रता सेनानियों के संघर्षों की याद दिलाता है। हमें गर्व है कि हम एक ऐसे देश के नागरिक हैं जहाँ विविधता में एकता है। जय हिन्द!</option>
+      <option value="15">आज़ादी के 79 साल, विकास और गौरव के बेमिसाल। यह हमारे लिए गर्व का क्षण है। इस शुभ अवसर पर हम सभी को एक होकर देश की प्रगति में योगदान देना चाहिए। वन्दे मातरम।</option>
+      <option value="16">स्वतंत्रता दिवस का यह पावन पर्व हमें हमारे देश के गौरवशाली इतिहास और उज्ज्वल भविष्य की याद दिलाता है। आओ, हम सब मिलकर अपने देश को नई ऊँचाइयों पर ले जाने का प्रण लें। जय भारत!</option>
+      <option value="17">स्वतंत्रता दिवस की शुभकामनाएँ। यह दिन हमें याद दिलाता है कि हमारा देश हमारे पूर्वजों के त्याग और बलिदान का परिणाम है। हमें इस आज़ादी की रक्षा करनी है और इसे हर कीमत पर बनाए रखना है। जय हिन्द की सेना!</option>
+      <option value="18">आज़ादी के इस महापर्व पर हम सभी भारतीयों को गर्व है। हमारा देश दुनिया का सबसे बड़ा लोकतंत्र है। हम सबको मिलकर इस लोकतंत्र को मजबूत करना है और एक नए भारत का निर्माण करना है। जय जवान, जय किसान!</option>
+      <option value="19">हमारा तिरंगा सदा ऊँचा रहे! स्वतंत्रता दिवस के इस शुभ अवसर पर हम अपने देश के लिए एक बेहतर भविष्य की कामना करते हैं। आओ, हम सभी अपने राष्ट्र के प्रति अपने कर्तव्यों का पालन करें। वंदे मातरम!</option>
+      <option value="20">आओ मिलकर स्वतंत्रता दिवस मनाएं! यह दिन हमें याद दिलाता है कि हमारे पूर्वजों ने हमें एक आज़ाद देश दिया है। हमें इस आज़ादी को कभी नहीं भूलना चाहिए। जय हिन्द!</option>
+    </select>
+    <button onclick="generateMessage()">Generate</button>
+  </div>
+  
+  <div id="output"></div>
+  <div id="shareBtnContainer">
+    <button id="whatsappShareBtn" onclick="shareToWhatsApp()">📲 Share on WhatsApp</button>
+    <button id="genericShareBtn" onclick="shareAsImage()">📲 Share</button>
+  </div>
+</div>
+
+<audio id="background-audio" loop>
+  <source src="jana-gana-mana.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<div class="audio-controls">
+  <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+  <button id="musicToggleBtn" onclick="toggleMusic()">🎶</button>
+</div>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script>
+let greetingMessageText = "";
+
+let audio = document.getElementById("background-audio");
+let musicToggleBtn = document.getElementById("musicToggleBtn");
+let volumeSlider = document.getElementById("volumeSlider");
+let isPlaying = false;
+
+// Set initial volume
+audio.volume = volumeSlider.value;
+
+// Update volume when slider changes
+volumeSlider.addEventListener('input', function() {
+  audio.volume = volumeSlider.value;
+});
+
+function toggleMusic() {
+  if (isPlaying) {
+    audio.pause();
+    musicToggleBtn.innerHTML = "🎶";
+  } else {
+    audio.play();
+    musicToggleBtn.innerHTML = "⏸️";
+  }
+  isPlaying = !isPlaying;
+}
+
+function loadNameFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const name = urlParams.get('name');
+  if (name) {
+    document.getElementById("nameInput").value = name;
+    generateMessage();
+  } else {
+    document.getElementById("output").innerHTML = `<h2>🇮🇳 Happy 79th Independence Day 🎆</h2><p>Apna naam likh kar ek shubhkaamna message banayein!</p>`;
+  }
+}
+
+function generateMessage() {
+  const name = document.getElementById("nameInput").value.trim();
+  const messageOption = document.getElementById("messageSelect").value;
+  let customMessage = "";
+
+  if (!name) {
+    alert("Kripya apna naam likhiye");
+    return;
+  }
+
+  const messages = {
+    "1": "जय हिन्द! 🇮🇳",
+    "2": "हमारे वीर शहीदों को नमन। आपकी कुर्बानियों को कभी भुलाया नहीं जा सकता। जय भारत! 🙏",
+    "3": "स्वतंत्रता दिवस की हार्दिक शुभकामनाएँ! आओ हम सब मिलकर एक बेहतर भारत का निर्माण करें। वंदे मातरम!",
+    "4": "आजादी का यह दिन हमें हमारे गौरवशाली इतिहास की याद दिलाता है। जय हिन्द!",
+    "5": "हम सभी भारतीय एक हैं, और यही हमारी ताकत है। स्वतंत्रता दिवस की शुभकामनाएँ।",
+    "6": "आओ, मिलकर एक नए और प्रगतिशील भारत का निर्माण करें। जय हिंद, जय भारत!",
+    "7": "हमारा तिरंगा सदा ऊँचा रहे! जय भारत।",
+    "8": "स्वतंत्रता दिवस की हार्दिक शुभकामनाएँ।",
+    "9": "जय भारत, जय हिन्द! 🇮🇳",
+    "10": "भारत माता की जय! 🙏",
+    "11": "देशभक्ति का यह पर्व, हम सबके लिए गर्व।",
+    "12": "तिरंगा हमारा स्वाभिमान है।",
+    "13": "स्वतंत्रता दिवस हमें अपने वीर शहीदों के बलिदान की याद दिलाता है। यह दिन हमें एकता और अखंडता के महत्व को समझाता है। आओ, हम सब मिलकर एक मजबूत, समृद्ध और विकसित भारत का निर्माण करने का संकल्प लें। 🇮🇳",
+    "14": "79वें स्वतंत्रता दिवस की शुभकामनाएँ! यह दिन हमें हमारे महान स्वतंत्रता सेनानियों के संघर्षों की याद दिलाता है। हमें गर्व है कि हम एक ऐसे देश के नागरिक हैं जहाँ विविधता में एकता है। जय हिन्द!",
+    "15": "आज़ादी के 79 साल, विकास और गौरव के बेमिसाल। यह हमारे लिए गर्व का क्षण है। इस शुभ अवसर पर हम सभी को एक होकर देश की प्रगति में योगदान देना चाहिए। वन्दे मातरम।",
+    "16": "स्वतंत्रता दिवस का यह पावन पर्व हमें हमारे देश के गौरवशाली इतिहास और उज्ज्वल भविष्य की याद दिलाता है। आओ, हम सब मिलकर अपने देश को नई ऊँचाइयों पर ले जाने का प्रण लें। जय भारत!",
+    "17": "स्वतंत्रता दिवस की शुभकामनाएँ। यह दिन हमें याद दिलाता है कि हमारा देश हमारे पूर्वजों के त्याग और बलिदान का परिणाम है। हमें इस आज़ादी की रक्षा करनी है और इसे हर कीमत पर बनाए रखना है। जय हिन्द की सेना!",
+    "18": "आज़ादी के इस महापर्व पर हम सभी भारतीयों को गर्व है। हमारा देश दुनिया का सबसे बड़ा लोकतंत्र है। हम सबको मिलकर इस लोकतंत्र को मजबूत करना है और एक नए भारत का निर्माण करना है। जय जवान, जय किसान!",
+    "19": "हमारा तिरंगा सदा ऊँचा रहे! स्वतंत्रता दिवस के इस शुभ अवसर पर हम अपने देश के लिए एक बेहतर भविष्य की कामना करते हैं। आओ, हम सभी अपने राष्ट्र के प्रति अपने कर्तव्यों का पालन करें। वंदे मातरम!",
+    "20": "आओ मिलकर स्वतंत्रता दिवस मनाएं! यह दिन हमें याद दिलाता है कि हमारे पूर्वजों ने हमें एक आज़ाद देश दिया है। हमें इस आज़ादी को कभी नहीं भूलना चाहिए। जय हिन्द!"
+  };
+
+  customMessage = messages[messageOption];
+
+  greetingMessageText = `🇮🇳 Happy 79th Independence Day from ${name} 🎆\n` + customMessage;
+
+  document.getElementById("output").innerHTML = `<h2>🇮🇳 Happy 79th Independence Day from ${name} 🎆</h2>
+    <p>${customMessage.replace(/\n/g, '<br>')}</p>`;
+
+  const shareBtnContainer = document.getElementById("shareBtnContainer");
+  shareBtnContainer.style.display = "block";
+
+  const url = new URL(window.location.href);
+  url.searchParams.set('name', name);
+  window.history.replaceState({}, '', url.toString());
+
+  launchFireworks();
+}
+
+function shareToWhatsApp() {
+  const url = `whatsapp://send?text=${encodeURIComponent(greetingMessageText + '\n\nYeh greeting card yahan dekhein: ' + window.location.href)}`;
+  window.open(url, '_blank');
+}
+
+function shareAsImage() {
+  const container = document.querySelector(".container");
+  const inputArea = document.getElementById("input-area");
+  const shareBtnContainer = document.getElementById("shareBtnContainer");
+  
+  inputArea.style.display = 'none';
+  shareBtnContainer.style.display = 'none';
+
+  html2canvas(container, {
+    scale: 2,
+    backgroundColor: null,
+  }).then(canvas => {
+    canvas.toBlob(function(blob) {
+      const file = new File([blob], 'Independence-Day-Card.png', {type: 'image/png'});
+      const shareData = {
+        title: 'Happy 79th Independence Day',
+        text: greetingMessageText + `\n\nYeh greeting card yahan dekhein: ${window.location.href}`,
+        files: [file]
+      };
+
+      if (navigator.canShare && navigator.canShare(shareData)) {
+        navigator.share(shareData)
+          .then(() => console.log('Image shared successfully'))
+          .catch((error) => console.log('Error sharing:', error));
+      } else {
+        const fallbackMsg = `${greetingMessageText}\n\nYeh greeting card yahan dekhein: ${window.location.href}`;
+        alert(`Sorry, image sharing is not supported on this device.\n\nMessage: ${fallbackMsg}`);
+      }
+      
+      inputArea.style.display = 'block';
+      shareBtnContainer.style.display = 'block';
+    }, 'image/png');
+  });
+}
+
+window.onload = loadNameFromURL;
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+function launchFireworks(){
+  for(let i=0;i<100;i++){
+    particles.push({
+      x: canvas.width / 2,
+      y: canvas.height,
+      radius: Math.random() * 2 + 2,
+      color: `hsl(${Math.random() * 360},100%,50%)`,
+      speedX: (Math.random() - 0.5) * 10,
+      speedY: -(Math.random() * 10 + 10),
+      alpha: 1
+    });
+  }
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach((p, index) => {
+    p.x += p.speedX;
+    p.y += p.speedY;
+    p.speedY += 0.2;
+    p.alpha -= 0.01;
+    ctx.globalAlpha = p.alpha;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+    if(p.alpha <= 0) particles.splice(index, 1);
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>
+<script type="text/javascript">
+	atOptions = {
+		'key' : '1a6f70c14cdbab2ea5a5b7a648a23585',
+		'format' : 'iframe',
+		'height' : 60,
+		'width' : 468,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/1a6f70c14cdbab2ea5a5b7a648a23585/invoke.js"></script>
