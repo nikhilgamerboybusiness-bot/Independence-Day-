@@ -64,7 +64,6 @@
     width: 80%;
     margin: 10px 0;
     border-radius: 5px;
-    /* Naya border code yahan shuru hota hai */
     border: 2px solid transparent;
     border-image: linear-gradient(45deg, orange, white, green);
     border-image-slice: 1;
@@ -79,7 +78,7 @@
   }
   input:focus, select:focus {
     border-image: linear-gradient(45deg, orange, white, green) 1;
-    box-shadow: 0 0 10px rgba(255,165,0,0.5); /* Focus hone par halki glow */
+    box-shadow: 0 0 10px rgba(255,165,0,0.5);
   }
   button {
     padding: 10px 20px;
@@ -202,6 +201,10 @@
   <img src="giphy.gif" alt="Independence Day GIF">
   <h1>🇮🇳 Happy 79th Independence Day 🇮🇳</h1>
   
+  <div style="margin-bottom: 20px; font-size: 1.2em;">
+    Total Views: <span id="viewCount">0</span>
+  </div>
+
   <div id="input-area">
     <input type="text" id="nameInput" placeholder="Apna naam likhiye">
     <select id="messageSelect">
@@ -419,6 +422,29 @@ function animate(){
   requestAnimationFrame(animate);
 }
 animate();
+
+// ---- View Counter JavaScript Code ----
+window.onload = function() {
+  // Load existing view count
+  let count = localStorage.getItem('website_views');
+  if (count) {
+    count = parseInt(count) + 1;
+  } else {
+    count = 1;
+  }
+  localStorage.setItem('website_views', count);
+  document.getElementById('viewCount').textContent = count;
+
+  // This part of the code is from your original script
+  const urlParams = new URLSearchParams(window.location.search);
+  const name = urlParams.get('name');
+  if (name) {
+    document.getElementById("nameInput").value = name;
+    generateMessage();
+  } else {
+    document.getElementById("output").innerHTML = `<h2>🇮🇳 Happy 79th Independence Day 🎆</h2><p>Apna naam likh kar ek shubhkaamna message banayein!</p>`;
+  }
+};
 </script>
 </body>
 </html>
